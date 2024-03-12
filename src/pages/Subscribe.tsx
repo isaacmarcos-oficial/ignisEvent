@@ -40,8 +40,10 @@ export function Subscribe() {
 
       setIsLoading(false);
       const responseData = await response.json();
+      console.log(responseData)
 
-      if (response.ok) {
+      if (response.ok)
+      {
         navigate("/event");
         toast.success("Assinatura bem-sucedida!");
       } else if (
@@ -61,7 +63,7 @@ export function Subscribe() {
             }),
           }
         );
-        
+        const updateResponseData = await updateResponse.json();
 
         const updateContactResponse = await fetch(
           `https://api.brevo.com/v3/contacts/${email}`,
@@ -81,6 +83,10 @@ export function Subscribe() {
             }),
           }
         );
+
+        const updateContactResponseData = await updateContactResponse.json();
+        console.log("Update Response Data:", updateResponseData);
+        console.log("Update Contact Response Data:", updateContactResponseData);
 
         localStorage.setItem("name", name);
         toast.success("Assinatura bem-sucedida!");
