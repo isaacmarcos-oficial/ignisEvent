@@ -40,12 +40,12 @@ export function Subscribe() {
 
       setIsLoading(false);
       const responseData = await response.json();
-      console.log(responseData)
 
       if (response.ok)
       {
-        navigate("/event");
+        localStorage.setItem("name", name);
         toast.success("Assinatura bem-sucedida!");
+        navigate("/event");
       } else if (
         responseData.code &&
         responseData.code === "duplicate_parameter"
@@ -85,8 +85,6 @@ export function Subscribe() {
         );
 
         const updateContactResponseData = await updateContactResponse.json();
-        console.log("Update Response Data:", updateResponseData);
-        console.log("Update Contact Response Data:", updateContactResponseData);
 
         localStorage.setItem("name", name);
         toast.success("Assinatura bem-sucedida!");
