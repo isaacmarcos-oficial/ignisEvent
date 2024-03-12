@@ -13,9 +13,11 @@ export function Subscribe() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
+  const [isLoading, setIsLoading] = useState(false)
 
   async function handleSubscribe(event: FormEvent) {
     event.preventDefault();
+    setIsLoading(true)
 
     try {
       const response = await fetch("https://api.brevo.com/v3/contacts", {
@@ -36,6 +38,7 @@ export function Subscribe() {
         }),
       });
 
+      setIsLoading(false);
       const responseData = await response.json();
 
       if (response.ok) {
@@ -58,6 +61,7 @@ export function Subscribe() {
             }),
           }
         );
+        
 
         const updateContactResponse = await fetch(
           `https://api.brevo.com/v3/contacts/${email}`,
@@ -85,6 +89,7 @@ export function Subscribe() {
         toast("Falha na assinatura");
       }
     } catch (erro) {
+      setIsLoading(false);
       toast.error(
         "Ocorreu um erro ao processar sua solicitação. Por favor, tente novamente."
       );
@@ -157,16 +162,14 @@ export function Subscribe() {
 
             <Button
               type="submit"
-              // disabled={isLoading}
+              disabled={isLoading}
               className="mt-4 bg-green-500 text-zinc-900 uppercase py-4 rounded font-bold text-sm hover:bg-green-700 transition-colors disabled:opacity-50"
             >
-              Garantir minha vaga
+              {isLoading ? "Gerando inscrição" : "Garantir minha vaga"}
             </Button>
           </form>
         </div>
       </div>
-
-      {/* <img src="/src/assets/code-mockup.png" className="mt-10" alt="" /> */}
     </div>
   );
 }
