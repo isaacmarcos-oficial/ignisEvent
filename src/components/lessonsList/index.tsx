@@ -1,8 +1,12 @@
-import { useGetLessonsQuery } from "@/graphql/generated";
 import { Lesson } from "./Lesson";
+import { useQuery } from "@apollo/client";
+import { Lessons } from "@/graphql/types/Ead/LessonsMaterclass";
+import { GET_LESSONS } from "@/graphql/queries/ead/LessonsMasterClass";
 
 export function LessonsList() {
-  const { data } = useGetLessonsQuery();
+  const { data } = useQuery<{ allLessonsClass: Lessons[] }>(
+    GET_LESSONS,{}
+  );
 
   return (
     <div className="w-[250px] mt-6">
@@ -11,12 +15,13 @@ export function LessonsList() {
       </span>
 
       <div className="flex flex-col gap-8">
-        {data?.lessons.map((lesson) => {
+        {data?.allLessonsClass.map((lesson) => {
           return (
             <Lesson
               key={lesson.id}
+              id={lesson.id}
               title={lesson.title}
-              slug={lesson.slug}
+              slug={lesson.id}
               availableAt={new Date(lesson.availableAt)}
               type={lesson.lessonType}
             />

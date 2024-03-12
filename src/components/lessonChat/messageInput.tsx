@@ -1,25 +1,56 @@
+import { RefetchContext } from "@/Context/RefechContext";
+import {
+  CREATE_MESSAGE,
+  EDIT_MESSAGE,
+} from "@/graphql/queries/ead/ChatMessage";
+import { ChatMessage } from "@/graphql/types/Ead/ChatMessage";
+import { useMutation } from "@apollo/client";
 import { Send } from "lucide-react";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { toast } from "sonner";
 
-type SendMessageFunction = (messageText: string) => void;
+export function MessageInput() {
+  const context = useContext(RefetchContext);
+  const [createChatMessage] = useMutation(CREATE_MESSAGE);
+  const [message, setMessage] = useState("");
+  const [userName, setUserName] = useState(() => localStorage.getItem("name") || "");
+  const currentTime = new Date();
 
-export function MessageInput({onSendMessage}: { onSendMessage: SendMessageFunction }) {
-  const [message, setMessage] = useState('');
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (message.trim()) {
-      onSendMessage(message);
-      setMessage('');
+
+    const messageData: Omit<ChatMessage, "id"> = {
+      message: message,
+      sender: userName,
+      timestamp: String(currentTime),
+    };
+
+    try {
+      await createChatMessage({
+        variables: {
+          createChatMessageObject: {
+            ...messageData,
+          },
+        },
+      });
+      setMessage("");
+      if (context && context.refetch) {
+        context.refetch();
+      }
+    } catch (error) {
+      toast.error("Erro ao enviar a mensagem. Tente novamente!");
     }
   };
 
   return (
-    <form className="message-input border-gray-600 flex items-center" onSubmit={handleSubmit}>
+    <form
+      className="message-input border-gray-600 flex items-center"
+      onSubmit={handleSubmit}
+    >
       <input
         type="text"
         placeholder="Digite uma mensagem..."
-        className="flex-1 bg-zinc-900 text-white p-2 rounded-md outline-none"
+        className="flex-1 bg-zinc-900 text-white p-2 pl-4 rounded-md outline-none"
         value={message}
         onChange={(e) => setMessage(e.target.value)}
       />
@@ -31,5 +62,5 @@ export function MessageInput({onSendMessage}: { onSendMessage: SendMessageFuncti
         <Send className="h-5 w-5" />
       </button>
     </form>
-  )
+  );
 }

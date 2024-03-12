@@ -1,9 +1,7 @@
-import { ApolloClient, InMemoryCache } from "@apollo/client";
+import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
+import fetch from "cross-fetch"
 
 export const client = new ApolloClient({
-  uri: import.meta.env.VITE_API_URL ,
-  headers: {
-    'Authorization': `Bearer ${import.meta.env.VITE_API_ACCESS_TOKEN}`
-  },
-  cache: new InMemoryCache()
+  link: new HttpLink({uri: "https://ignisdash-server.vercel.app/", fetch}),
+  cache: new InMemoryCache(),
 })
