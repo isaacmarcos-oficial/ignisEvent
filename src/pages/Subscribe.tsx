@@ -24,7 +24,7 @@ export function Subscribe() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "api-key": import.meta.env.VITE_BREVO_API_KEY,
+          "api-key": import.meta.env.VITE_BREVO_KEY,
         },
         body: JSON.stringify({
           email,
@@ -54,7 +54,7 @@ export function Subscribe() {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              "api-key": import.meta.env.VITE_BREVO_API_KEY,
+              "api-key": import.meta.env.VITE_BREVO_KEY,
             },
             body: JSON.stringify({
               emails: [email],
@@ -69,7 +69,7 @@ export function Subscribe() {
             method: "PUT",
             headers: {
               "Content-Type": "application/json",
-              "api-key": import.meta.env.VITE_BREVO_API_KEY,
+              "api-key": import.meta.env.VITE_BREVO_KEY,
             },
             body: JSON.stringify({
               email,
