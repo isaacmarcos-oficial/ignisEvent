@@ -4,7 +4,7 @@ import { Logo } from "../components/Logo";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Mail, User } from "lucide-react";
-import { Spinner, WhatsappLogo } from "phosphor-react";
+import { WhatsappLogo } from "phosphor-react";
 import { toast } from "sonner";
 
 export function Subscribe() {
@@ -13,7 +13,6 @@ export function Subscribe() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
 
   async function handleSubscribe(event: FormEvent) {
     event.preventDefault();
@@ -77,19 +76,15 @@ export function Subscribe() {
               },
             }),
           }
-        )
+        );
 
-        localStorage.setItem('name', name);
+        localStorage.setItem("name", name);
         toast.success("Assinatura bem-sucedida!");
         navigate("/event");
       } else {
-
         toast("Falha na assinatura");
-        console.log(responseData);
-        console.log(name, email, phone);
       }
     } catch (erro) {
-      console.log(name, email, phone);
       toast.error(
         "Ocorreu um erro ao processar sua solicitação. Por favor, tente novamente."
       );
