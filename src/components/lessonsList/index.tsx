@@ -9,7 +9,7 @@ export function LessonsList() {
   );
 
   return (
-    <div className="w-[250px] mt-6">
+    <div className="sm:w-[300px] mt-6">
       <span className="font-bold text-2xl pb-6 mb-6 border-b border-gray-500 block">
         Cronograma das aulas
       </span>

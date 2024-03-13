@@ -40,7 +40,7 @@ export function MessageList() {
   return (
     <div
       ref={messagesContainerRef}
-      className="flex flex-col overflow-y-auto p-3 border border-zinc-800 rounded lg:max-h-[200px] h-[80%] max-h-[380px]"
+      className="flex flex-col overflow-y-auto p-3 border border-zinc-800 rounded lg:max-h-[200px] lg:h-[200px] h-[80%] max-h-[380px]"
     >
       {data?.allMessages.map((message, index) => (
         <MessageItem

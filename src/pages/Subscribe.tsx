@@ -93,23 +93,25 @@ export function Subscribe() {
         toast("Falha na assinatura");
       }
     } catch (erro) {
+      localStorage.setItem("name", name);
       setIsLoading(false);
       toast.error(
         "Ocorreu um erro ao processar sua solicitação. Por favor, tente novamente."
-      );
+        );
+      navigate("/event");
     }
   }
 
   return (
     <div className="min-h-screen bg-blur bg-cover bg-no-repeat flex flex-col items-center px-8">
-      <div className="w-full max-w-[1100px] flex items-center justify-between mt-20 mx-auto lg:flex-col lg:gap-16">
+      <div className="w-full max-w-[1100px] flex items-center justify-between mt-20 mx-auto lg:flex-col lg:gap-16 xs:pb-20">
         <div className="max-w-[640px]">
           <Logo />
 
           <h1 className="mt-8 text-[2.5rem] leading-tight font-bold">
             Conheça e prepare-se para a{" "}
             <strong className="text-green-500">
-              Consagração Total À Santíssima Virgem Maria
+              Consagração Total à Santíssima Virgem Maria
             </strong>
             .
           </h1>

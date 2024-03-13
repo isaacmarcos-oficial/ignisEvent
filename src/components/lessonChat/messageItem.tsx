@@ -9,7 +9,7 @@ export interface MessageProps {
 
 export function MessageItem({ id, message, sender, timestamp }: MessageProps) {
   return (
-    <div className="flex items-start space-x-3 p-1 mt-3" key={id}>
+    <div className="flex items-start space-x-3 p-1 mt-3 " key={id}>
       <div className="text-sm rounded-lg">
         <div className="flex font-semibold  text-white items-center">
           <ChevronRight className="h5 w-5 text-green-500" />
