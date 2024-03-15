@@ -1,45 +1,28 @@
-import { RefetchContext } from "@/Context/RefechContext";
-import {
-  CREATE_MESSAGE,
-  EDIT_MESSAGE,
-} from "@/graphql/queries/ead/ChatMessage";
-import { ChatMessage } from "@/graphql/types/Ead/ChatMessage";
-import { useMutation } from "@apollo/client";
 import { Send } from "lucide-react";
-import { useContext, useState } from "react";
-import { toast } from "sonner";
+import { useState } from "react";
+import { io } from "socket.io-client";
 
 export function MessageInput() {
-  const context = useContext(RefetchContext);
-  const [createChatMessage] = useMutation(CREATE_MESSAGE);
   const [message, setMessage] = useState("");
-  const [userName, setUserName] = useState(() => localStorage.getItem("name") || "");
+  const [userName, _setUserName] = useState(
+    () => localStorage.getItem("name") || ""
+  );
   const currentTime = new Date();
+
+  const socket = io("https://ignisdash-server.vercel.app/4001");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const messageData: Omit<ChatMessage, "id"> = {
+    if (!message.trim()) return;
+
+    socket.emit("sendMessage", {
       message: message,
       sender: userName,
       timestamp: String(currentTime),
-    };
+    });
 
-    try {
-      await createChatMessage({
-        variables: {
-          createChatMessageObject: {
-            ...messageData,
-          },
-        },
-      });
-      setMessage("");
-      if (context && context.refetch) {
-        context.refetch();
-      }
-    } catch (error) {
-      toast.error("Erro ao enviar a mensagem. Tente novamente!");
-    }
+    setMessage("");
   };
 
   return (

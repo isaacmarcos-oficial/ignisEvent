@@ -1,4 +1,4 @@
-import { useState, FormEvent } from "react";
+import { useState, FormEvent, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Logo } from "../components/Logo";
 import { Input } from "@/components/ui/input";
@@ -14,6 +14,13 @@ export function Subscribe() {
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false)
+
+  useEffect(() => {
+    const storedName = localStorage.getItem("name");
+    if (storedName) {
+      navigate("/event");
+    }
+  }, []);
 
   async function handleSubscribe(event: FormEvent) {
     event.preventDefault();
@@ -41,8 +48,7 @@ export function Subscribe() {
       setIsLoading(false);
       const responseData = await response.json();
 
-      if (response.ok)
-      {
+      if (response.ok) {
         localStorage.setItem("name", name);
         toast.success("Assinatura bem-sucedida!");
         navigate("/event");
@@ -97,7 +103,7 @@ export function Subscribe() {
       setIsLoading(false);
       toast.error(
         "Ocorreu um erro ao processar sua solicitação. Por favor, tente novamente."
-        );
+      );
       navigate("/event");
     }
   }
